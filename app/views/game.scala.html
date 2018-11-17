@@ -1,0 +1,502 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title> game</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        
+        <script src="@routes.Assets.versioned("javascripts/Symbol.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/Reel.js")" type="text/javascript"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+       
+    </head>
+    <body background="@routes.Assets.versioned("images/bg.jpg")">
+		 <center><h1>Slot Machine</h1></center>
+        
+        <div id="container" >
+       
+        
+        <div class="item">
+
+            <textarea id="txt" rows="4" cols="50" style="overflow:hidden"> Welcome to slot machine</textarea>
+
+            <img id="img1" width="100px" height="150px" onclick="clicked1()">
+
+            <img id="img2" width="100px" height="150px" onclick="clicked2()">
+
+            <img id="img3" width="100px" height="150px" onclick="clicked3()">
+
+        </div>
+        
+        
+
+        <button  id="spinbtn" onclick="this.disabled=true;spinning()"> Spin </button>
+
+        <button class="button" id="add_coin" onclick="addCoin()">Add coins</button>
+        
+        
+
+        <button class="button" id="bet_max" onclick="betMax()"> Bet Max </button>
+
+        <button class="button" id="bet_one" onclick="betOne()"> Bet One </button>
+
+        <button class="button" id="reset" onclick="Resetd()"> Reset </button>
+        
+         <button class="button" id="statsbtn" onclick="statspage();chartCreate();calcAvg()"> Show statistics </button>
+        
+
+        <p id="lblcredit">Credits Available</p>
+        <input type="text" id="credit" value="10" readonly>
+       
+       <p id="lblbets">Bet Amount</p>
+        <input type="text" id="bets" value="00" readonly>
+
+		<button class="button" id="logout" onclick="logout()"> Log out</button>
+		
+    
+
+    </div>
+
+	
+
+	  <div id="main" style="height: 500px; width: 100%;">
+            
+            <button class="button" id="back" onclick="gamepage()">Back to game</button>
+              
+              
+               <button class="button" id="show" onclick="retrieve()">Show stored game details </button>
+               
+                <p id="lblAvg">Average net credits:</p>
+                  <p id="avg"></p>
+                  
+                  <p id="lblWin">Total Credits won:</p>
+                  <p id="winnings"></p>
+                  
+                  <p id="lblLoss">Total Credits lost:</p>
+                  <p id="lost"></p>
+              
+        <div id="chartContainer" style="height: 300px; width: 100%;"><div>
+            
+        </div>
+        
+      
+
+</div>
+
+	//firebase connection
+	
+ <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBlWg8VWag3UYC4liHjhfWKKVTX1rG2_0w",
+            authDomain: "slot-machine-ffc7b.firebaseapp.com",
+            databaseURL: "https://slot-machine-ffc7b.firebaseio.com",
+            projectId: "slot-machine-ffc7b",
+            storageBucket: "slot-machine-ffc7b.appspot.com",
+            messagingSenderId: "350716114449"
+        };
+        firebase.initializeApp(config);
+        
+        
+        
+        var stop = false;
+        var reel1 = new Reel();
+        var reel2 = new Reel();
+        var reel3 = new Reel();
+        var images1 = reel1.getSymList();
+        var images2 = reel2.getSymList();
+        var images3 = reel3.getSymList();
+        var bet = 0;									//declaring all necessary variable
+        var tot_bet = 0;
+        var won = 0;
+        var loss=0;
+        var stop1 = false;
+        var stop2 = false;
+        var stop3 = false;
+        var totCreditswon = 0;
+        var totCreditslost = 0;
+        var totGames = 0;
+        
+        
+
+        function spinning() {				//function for spinning
+        	 document.getElementById("txt").value = "";
+        if(bet!=0) {
+        
+        			document.getElementById("img1").style.display ="block";
+                    document.getElementById("img2").style.display ="block";
+                    document.getElementById("img3").style.display ="block";
+       totGames++;
+       stop = false;
+       document.getElementById("bets").value = "00";
+                var ind1 = 0;
+               var ind2 = 0;
+               var ind3 = 0;
+                var spin1 = setInterval(function () {
+
+
+                    document.getElementById("img1").src = images1[ind1].getImagesrc();
+                    
+                   
+                    ind1++;
+
+                    if (stop1 == true) {
+                        clearInterval(spin1);
+                        checkWin();
+
+                    }
+
+                    if (ind1 == 6) {
+                        ind1 = 0;
+                    }
+
+
+
+                }, 50);
+                
+                
+                
+                
+                var spin2 = setInterval(function () {
+
+
+                   
+                    document.getElementById("img2").src = images2[ind2].getImagesrc();
+                  
+                   
+                    ind2++;
+				
+				if (stop2 == true) {
+                        clearInterval(spin2);
+                        checkWin();
+                        
+                        
+
+                    }
+                 
+
+                    if (ind2 == 6) {
+                        ind2 = 0;
+                    }
+
+
+
+                }, 50);
+                
+                
+                
+                
+                var spin3 = setInterval(function () {
+
+
+                    
+                    document.getElementById("img3").src = images3[ind3].getImagesrc();
+                   
+                    ind3++;
+
+					if (stop3 == true) {
+                        clearInterval(spin3);
+                        checkWin();
+
+                    }
+                   
+
+                    if (ind3 == 6) {
+                        ind3 = 0;
+                    }
+
+
+
+                }, 50);
+                
+       document.getElementById("bet_max").disabled = false;
+       	 }
+       	 
+       	 else {
+       	  alert("Please make a bet");
+       	  document.getElementById("spinbtn").disabled = false;
+       	 }
+        
+        }
+        
+        
+
+        function stoping() {      // to stop the spinning
+            stop = true;
+            document.getElementById("spinbtn").disabled = false;
+
+			
+        }
+
+        function winning() {      // checking winnings
+        
+         document.getElementById("spinbtn").disabled = false;
+            stop1 = stop2 = stop3 = false;
+        
+            var str1 = document.getElementById("img1").src;
+            var str2 = document.getElementById("img2").src;
+            var str3 = document.getElementById("img3").src;
+
+            if (str1 === str2) {
+                document.getElementById("txt").value = "You won a bet";
+                
+                 var source = str1.split("/");
+                    var val = source[source.length - 1];
+
+                credit = parseInt(document.getElementById("credit").value);
+                   
+                    credit = eval(credit + (bet*checkIm(reel1, val)));
+                    document.getElementById("credit").value = credit;
+                    document.getElementById("txt").value = "You won "+ (bet*checkIm(reel1, val)) +" credits.";s
+                
+               totCreditswon += (bet*checkIm(reel1, val));
+                bet=0;
+                won+=1;
+                
+            }
+            
+            else if (str2 === str3) {
+                document.getElementById("txt").value = "You won a bet";
+                
+                 var source = str2.split("/");
+                    var val = source[source.length - 1];
+
+                credit = parseInt(document.getElementById("credit").value);
+                  
+                    credit = eval(credit + (bet*checkIm(reel2, val)));
+                    document.getElementById("credit").value = credit;
+                    document.getElementById("txt").value = "You won "+ (bet*checkIm(reel1, val)) +" credits.";
+                
+                 totCreditswon += (bet*checkIm(reel1, val));
+                bet=0;
+                won+=1;
+                
+            }
+            
+            else if (str1 === str3) {
+                
+                
+                 var source = str1.split("/");
+                    var val = source[source.length - 1];
+
+                credit = parseInt(document.getElementById("credit").value);
+                  
+                    credit = eval(credit + (bet*checkIm(reel1, val)));
+                    document.getElementById("credit").value = credit;
+                    document.getElementById("txt").value = "You won "+ (bet*checkIm(reel1, val)) +" credits.";
+                    
+                 totCreditswon += (bet*checkIm(reel1, val));
+                bet=0;
+                won+=1;
+            }
+
+            else {
+                document.getElementById("txt").value = "You lost";
+                
+               
+                 
+                 totCreditslost += bet;
+                bet=0;
+                loss+=1;
+            }
+            
+         savedata();
+            
+        }
+
+        function addCoin() {									// function to add coins
+            var coins = parseInt(document.getElementById("credit").value);
+            coins++;
+            document.getElementById("credit").value = coins;
+
+
+        }
+
+        function betMax() {					//function to make maximum bet
+            var coins = parseInt(document.getElementById("credit").value);
+			
+            if (coins >= 3) {
+                coins -= 3;
+                bet += 3;
+                document.getElementById("credit").value = coins;
+                document.getElementById("bets").value = bet;
+                document.getElementById("bet_max").disabled = true;
+            }
+            else {
+                alert("You do not have enough coins");
+            }
+            
+            
+        }
+
+
+        function betOne() {												//function to make a bet of one credit
+            var coins = parseInt(document.getElementById("credit").value);
+
+            if (coins >= 1) {
+                coins -= 1;
+                bet += 1;
+                document.getElementById("credit").value = coins;
+                document.getElementById("bets").value = bet;
+            }
+            else {
+                alert("You do not have enough coins");
+            }
+        }
+
+        function Resetd() {						//reset certain functions
+        	bet = 0 ;
+            var coins = parseInt(document.getElementById("credit").value);
+            var temp_bet = parseInt(document.getElementById("bets").value);
+            document.getElementById("txt").value="";
+            coins+= temp_bet;
+            document.getElementById("credit").value = coins;
+            document.getElementById("bets").value = "00";
+            
+                     
+            		document.getElementById("img1").style.display ="none";
+                    document.getElementById("img2").style.display ="none";
+                    document.getElementById("img3").style.display ="none";
+
+        }
+        
+         function statspage() {				//to show statistics page
+                document.getElementById("container").style.display = "none";
+                document.getElementById("main").style.display = "block";
+                
+            }
+            
+            function gamepage() {
+                document.getElementById("container").style.display = "block";
+                document.getElementById("main").style.display = "none";
+                document.getElementById("winnings").innerHTML = "";
+                 document.getElementById("lost").innerHTML = "";
+                
+            }
+        
+       
+        function  chartCreate() {					// to create pie chart
+            
+	var chart = new CanvasJS.Chart("chartContainer",
+	{
+		title:{
+			text: "Game Statistics"
+		},
+		legend: {
+			maxWidth: 350,
+			itemWidth: 120
+		},
+		data: [
+		{
+			type: "pie",
+			showInLegend: true,
+			legendText: "{indexLabel}",
+			dataPoints: [
+				{ y: won, indexLabel: "Games won"},
+				{ y: loss, indexLabel: "Games Lost"}
+			]
+		}
+		]
+	});
+	chart.render();
+}
+
+	function checkIm(reel, src) {					// to check the image and get the corresponding value of the image
+                var arr = reel.getSymList();
+                for (var i = 0; i < 6; i++) {
+                var srcArray = arr[i].getImagesrc().split("/");
+                    if (srcArray[srcArray.length-1]===src) {
+                        return arr[i].getValue();
+                    }
+                }
+            }
+            
+            
+          function checkWin(){										// check if all are stopped
+           if((stop1==true) && (stop2==true) && (stop3==true)){
+           			winning();
+           
+           }
+          
+          }
+          
+          function clicked1() {
+          	stop1 = true;
+          	
+          }
+           function clicked2() {
+          	stop2 = true;
+          															//method to set the booleans of each spin to false
+          }
+          
+          function clicked3() {
+          	stop3 = true;
+          	
+          }
+          
+          
+           function logout() {								//logout function of firebase auth user
+            firebase.auth().signOut().then(function () {
+                window.location.href = "@controllers.routes.HomeController.index";
+            }).catch(function (error) {
+                
+            });
+        }
+        
+        
+        function savedata() {				//saving data function of firebase auth user
+        var avg = calcAvg();
+
+            var user = firebase.auth().currentUser;
+ 
+			
+            firebase.database().ref(user.uid).set({
+                creditswon: totCreditswon,
+                creditslost: totCreditslost,
+                averageCredits: avg,
+                gameswon:won,
+                gameslost:loss
+
+            });
+
+        }
+        
+        function retrieve() {						//getting back data function of firebase auth user
+           var userId = firebase.auth().currentUser.uid;
+	return firebase.database().ref(userId).once('value').then(function(snapshot) {
+ 	 var creditsWon = snapshot.val().creditswon;
+  	var creditsLost = snapshot.val().creditslost;
+  	
+  	document.getElementById("winnings").innerHTML = creditsWon;
+  	document.getElementById("lost").innerHTML = creditsLost;
+ 
+});
+
+        }
+        
+        function calcAvg() {				// calculate average net credits
+        var average = 0;
+        average = (totCreditswon - totCreditslost)/totGames ;
+        
+        if(isNaN(average)){
+        	average = 00;
+        }
+        
+        document.getElementById("avg").innerHTML = average;
+        
+        return average;
+        
+        }
+        
+        
+
+    </script>
+        
+		
+    </body>
+</html>

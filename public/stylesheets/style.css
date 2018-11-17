@@ -1,0 +1,338 @@
+
+h1 { color: #CEF0D4; font-family: 'Rouge Script', cursive; font-size: 130px; font-weight: normal; line-height: 48px; margin: 0 0 50px; text-align: center; text-shadow: 1px 1px 2px #082b34; }
+ h1 {
+      
+      font-family: futura;
+      font-style: italic;
+      
+      width:100%;
+      
+      margin: 0 auto;
+      text-align: center;
+      
+      color:#313131;
+      font-size:45px;
+      font-weight: bold;
+      position: absolute;
+      -webkit-animation:colorchange 20s infinite alternate;
+      
+      
+    }
+
+    @-webkit-keyframes colorchange {
+      0% {
+        
+        color: blue;
+      }
+      
+      10% {
+        
+        color: #8e44ad;
+      }
+      
+      20% {
+        
+        color: #1abc9c;
+      }
+      
+      30% {
+        
+        color: #d35400;
+      }
+      
+      40% {
+        
+        color: blue;
+      }
+      
+      50% {
+        
+        color: #34495e;
+      }
+      
+      60% {
+        
+        color: blue;
+      }
+      
+      70% {
+        
+        color: #2980b9;
+      }
+      80% {
+     
+        color: #f1c40f;
+      }
+      
+      90% {
+     
+        color: #2980b9;
+      }
+      
+      100% {
+        
+        color: pink;
+      }
+    }
+#container {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 700px;
+    height: 500px;
+    border-radius: 50px;
+}
+
+.item {
+    position: absolute;
+    margin: auto;
+    top: 20px;
+    right: -100px;
+    bottom: 50px;
+    left: 0;
+    width: 100px;
+    height: 150px;
+}
+
+#credit {
+    position: absolute;
+    margin: auto;
+    left: 300px;
+    bottom: 60px;
+}
+
+#add_coin {
+    position: absolute;
+    margin: auto;
+    left: 500px;
+    bottom: 60px;
+}
+
+#bet_max {
+    position: absolute;
+    margin: auto;
+    left: 50px;
+    bottom: 300px;
+}
+
+#bet_one {
+    position: absolute;
+    margin: auto;
+    left: 50px;
+    bottom: 250px;
+}
+
+#reset {
+    position: absolute;
+    margin: auto;
+    left: 50px;
+    bottom: 200px;
+}
+
+#lblcredit {
+    position: absolute;
+    margin: auto;
+    left: 180px;
+    bottom: 60px;
+}
+
+#bets {
+    position: absolute;
+    margin: auto;
+    left: 300px;
+    bottom: 20px;
+}
+
+#lblbets{
+ position: absolute;
+    margin: auto;
+    left: 180px;
+    bottom: 20px;
+
+}
+
+#spinbtn {
+    position: absolute;
+    margin: auto;
+    left: 300px;
+    bottom: 120px;
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    background: rgb(28, 184, 65);
+    border-radius: 50%;
+}
+
+#img1 {
+    position: absolute;
+    margin: auto;
+    left: -150px;
+    bottom: 00px;
+}
+
+#img2 {
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    bottom: 00px;
+}
+
+#img3 {
+    position: absolute;
+    margin: auto;
+    left: 150px;
+    bottom: 00px;
+}
+
+#txt {
+    position: absolute;
+    margin: auto;
+    left: -150px;
+    bottom: 200px;
+    font-family:Chiller;
+    font-size:20px;
+}
+#main{
+    display:none;
+}
+
+#back{
+    position: absolute;
+  margin: auto;
+    left: 600px;
+bottom:200px; 
+}
+
+
+#save{
+    position: absolute;
+  margin: auto;
+    left: 750px;
+	bottom:200px; 
+}
+
+#show{
+    position: absolute;
+  margin: auto;
+    left: 850px;
+	bottom:200px; 
+}
+
+
+#lblWin {
+	position: absolute;
+  margin: auto;
+    left: 600px;
+	bottom:100px;
+	color:white;
+	font-family:Chiller; 
+	font-size: 30px;
+	
+}
+
+
+
+#winnings {
+	position: absolute;
+  margin: auto;
+    left: 770px;
+	bottom:100px;
+	color:white;
+	font-family:Chiller; 
+	font-size: 30px;
+	
+	
+}
+
+#lblLoss {
+	position: absolute;
+  margin: auto;
+    left: 600px;
+	bottom:60px;
+	color:white;
+	font-family:Chiller; 
+	font-size: 30px;
+	
+}
+#lost {
+	position: absolute;
+  margin: auto;
+    left: 770px;
+	bottom:60px;
+	color:white;
+	font-family:Chiller; 
+	font-size: 30px;
+	
+	
+}
+
+
+#lblAvg{
+    position: absolute;
+  margin: auto;
+    left: 600px;
+	bottom:300px;
+	color:white;
+	font-family:Chiller; 
+	font-size: 30px;
+}
+
+#avg{
+    position: absolute;
+  margin: auto;
+    left: 800px;
+bottom:300px; 
+	color:white;
+	font-family:Chiller;
+	font-size: 30px; 
+}
+
+#statsbtn {
+ position: absolute;
+    margin: auto;
+    left: 50px;
+    bottom: 150px;
+}
+
+#logout {
+ position: absolute;
+    margin: auto;
+    left: 50px;
+    bottom: 50px;
+}
+
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+   background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+   background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+   background: -o-linear-gradient(top, #3e779d, #65a9d7);
+   padding: 12.5px 25px;
+   -webkit-border-radius: 28px;
+   -moz-border-radius: 28px;
+   border-radius: 28px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 13px;
+   font-family: Georgia, Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #28597a;
+   background: #28597a;
+   color: #ccc;
+   }
+.button:active {
+   border-top-color: #0b74ba;
+   background: #0b74ba;
+   }
+   
